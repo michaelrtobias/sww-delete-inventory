@@ -1,29 +1,20 @@
-// const createItem = require("../dynamodb/createItem");
-// const formatParams = (body) => {
-//   let params = {};
-//   const keys = Object.keys(body);
-//   keys.forEach((key) => {
-//     params[key] = {
-//       S: body[key],
-//     };
-//   });
-//   // do something with images
-//   params = {
-//     ...params,
-//     timestamp: {
-//       S: new Date().toISOString(),
-//     },
-//   };
+const deleteItem = require("../dynamodb/deleteItem");
+const formatParams = (body) => {
+  let params = {};
+  const keys = Object.keys(body);
+  keys.forEach((key) => {
+    params[key] = {
+      S: body[key],
+    };
+  });
 
-//   return params;
-// };
+  return params;
+};
 
 module.exports = async (body) => {
-  // let params = {
-  //   Item: formatParams(body),
-  // };
-  // const result = await createItem(params, "leads");
-  const result = "deleteing items with the cure";
-  console.log("body", body);
+  let params = {
+    Key: formatParams(body),
+  };
+  const result = await deleteItem(params, "watchInventory");
   return result;
 };

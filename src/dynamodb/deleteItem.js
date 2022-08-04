@@ -6,8 +6,14 @@ module.exports = async function (params, tableName) {
     apiVersion: "2012-08-10",
     region: "us-east-1",
   });
+
   params["TableName"] = tableName;
-  const query = await ddb.deleteItem(params).promise();
-  const unmarshalledQuery = AWS.DynamoDB.Converter.unmarshall(query);
+  params["ReturnValues"] = "ALL_OLD";
+
+  const deletedItem = await ddb.deleteItem(params).promise();
+
+  const unmarshalledQuery = AWS.DynamoDB.Converter.unmarshall(
+    deletedItem.Attributes
+  );
   return unmarshalledQuery;
 };
